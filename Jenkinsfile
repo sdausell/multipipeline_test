@@ -8,13 +8,14 @@ pipeline {
         steps {
              echo "building code complete"
         }
+      }
 
       stage("test") {
 
         steps {
             echo "testing code complete"
         }
-
+      }
        stage("deploy") {
 
         steps {
