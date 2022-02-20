@@ -1,26 +1,21 @@
+
 pipeline {
     agent any
-
     stages {
-
-      stage("build") {
-
-        steps {
-             echo "building code complete"
+        stage('SCM') {
+            steps {
+                git url: 'https://github.com/foo/bar.git'
+            }
         }
-      }
-
-      stage("test") {
-
-        steps {
-            echo "testing code complete"
+        stage('build && SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('My SonarQube Server') {
+                    // Optionally use a Maven environment you've configured already
+                    withMaven(maven:'Maven 3.5') {
+                        sh 'mvn clean package sonar:sonar'
+                    }
+                }
+            }
         }
-      }
-       stage("deploy") {
 
-        steps {
-          echo "deploying code complete"
-        }
-      }
-    }
 }
